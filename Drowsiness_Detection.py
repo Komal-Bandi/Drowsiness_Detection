@@ -14,7 +14,6 @@ ear_thresh = 0.23
 frames_thresh = 48
 detect = dlib.get_frontal_face_detector()
 predict = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["left_eye"]
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["right_eye"]
 cap=cv2.VideoCapture(0)
@@ -41,7 +40,7 @@ while True:
             count += 1
             print (count)
             if count >= frames_thresh:
-                cv2.imwrite("Dataset_Git/Drowsy(%f).jpg"%ear,frame)                
+                cv2.imwrite("Dataset/Drowsy(%f).jpg"%ear,frame)                
                 cv2.putText(frame, "DROWSINESS ALERT!", (125, 300),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         else:
