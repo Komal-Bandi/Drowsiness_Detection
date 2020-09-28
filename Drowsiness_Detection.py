@@ -3,6 +3,7 @@ from imutils import face_utils
 import imutils
 import dlib
 import cv2
+import time
 def eye_aspect_ratio(eye):
     A = dist.euclidean(eye[1], eye[5])
     B = dist.euclidean(eye[2], eye[4])
@@ -19,13 +20,14 @@ predict = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 cap=cv2.VideoCapture(0)
 count=0
 while True:
+    start_time = time.time()
     ret, frame=cap.read()
     frame = imutils.resize(frame, width=450)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = detect(gray, 0)
     for face in faces:
         shape = predict(gray, face)
-        shape = face_utils.shape_to_np(shape)#converting to NumPy Array
+        shape = face_utils.shape_to_np(shape)
         leftEye = shape[lStart:lEnd]
         rightEye = shape[rStart:rEnd]
         leftEAR = eye_aspect_ratio(leftEye)
@@ -46,6 +48,10 @@ while True:
             count = 0
         cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0,0), 2)
+    end_time = time.time() 
+    fps = 1 / float(end_time - start_time)
+    cv2.putText(frame, "FPS: {:.2f}".format(fps), (30, 30),
+	cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0,0), 2)                    
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):
