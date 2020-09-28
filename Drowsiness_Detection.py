@@ -18,6 +18,7 @@ predict = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["right_eye"]
 cap=cv2.VideoCapture(0)
 count=0
+count_drowsy_frames=0
 while True:
     ret, frame=cap.read()
     frame = imutils.resize(frame, width=450)
@@ -38,7 +39,9 @@ while True:
         if ear < ear_thresh:
             count += 1
             print (count)
-            if count >= frames_thresh:                
+            if count >= frames_thresh:
+                count_drowsy_frames += 1
+                cv2.imwrite("Dataset_Git/Drowsy%d.jpg"%count_drowsy_frames,frame)                
                 cv2.putText(frame, "DROWSINESS ALERT!", (125, 300),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         else:
