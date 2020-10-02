@@ -61,9 +61,11 @@ while True:
             count = 0
             stream.stop_stream()  
             stream.close()           
-            cv2.imwrite("Non_Drowsy_Dataset/Non_Drowsy(%f).jpg"%ear,frame)
+            cv2.imwrite("Non_Drowsy_Dataset/Non_Drowsy(%f).jpg"%ear,frame)            
+
         cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0,0), 2)
+            
     end_time = time.time() 
     fps = 1 / float(end_time - start_time)
     cv2.putText(frame, "FPS: {:.2f}".format(fps), (30, 30),
