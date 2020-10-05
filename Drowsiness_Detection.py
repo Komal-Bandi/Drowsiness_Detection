@@ -17,9 +17,9 @@ def eye_aspect_ratio(eye):
 ear_thresh = 0.21
 frames_thresh = 48
 detect = dlib.get_frontal_face_detector()
-predict = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-(lStart, lEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["left_eye"]
-(rStart, rEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["right_eye"]
+predict = dlib.shape_predictor("eye_predictor.dat")
+#(lStart, lEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["left_eye"]
+#(rStart, rEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["right_eye"]
 cap=cv2.VideoCapture(0)
 count=0
 chunk=1024
@@ -39,8 +39,8 @@ while True:
     for face in faces:
         shape = predict(gray, face)
         shape = face_utils.shape_to_np(shape)
-        leftEye = shape[lStart:lEnd]
-        rightEye = shape[rStart:rEnd]
+        leftEye = shape[6:12]
+        rightEye = shape[0:6]
         leftEAR = eye_aspect_ratio(leftEye)
         rightEAR = eye_aspect_ratio(rightEye)
         ear = (leftEAR + rightEAR) / 2.0
